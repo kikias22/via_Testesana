@@ -1,4 +1,5 @@
 import { BasketPage } from "../pageObjects/BasketPage";
+import { CreateAddressPage } from "../pageObjects/CreateAddressPage";
 import { DeliveryMethodPage } from "../pageObjects/DeliveryMethodPage";
 import { HomePage } from "../pageObjects/HomePage";
 import { LoginPage } from "../pageObjects/LoginPage";
@@ -6,6 +7,8 @@ import { OrderCompletionPage } from "../pageObjects/OrderCompletionPage";
 import { OrderSummaryPage } from "../pageObjects/OrderSummaryPage";
 import { PaymentOptionsPage } from "../pageObjects/PaymentOptionsPage";
 import { RegistrationPage } from "../pageObjects/RegistrationPage";
+import { SavedAddressesPage } from "../pageObjects/SavedAddressesPage";
+import { SavedPaymentMethodsPage } from "../pageObjects/SavedPaymentMethodsPage";
 import { SelectAddressPage } from "../pageObjects/SelectAddressPage";
 
 
@@ -181,7 +184,7 @@ context("With auto login", () => {
     HomePage.cardsAmount.should("contain.text", "1 – 36 of 36");
     });
 
-    it.only("Buy Girlie T-shirt", () => {
+    it("Buy Girlie T-shirt", () => {
     // Create scenario - Buy Girlie T-shirt
     // Click on search icon
     HomePage.searchIcon.click(); 
@@ -217,28 +220,63 @@ context("With auto login", () => {
     OrderCompletionPage.purchaseInfo.should("contain.text", "Thank you for your purchase!");
 
     });
+
+    it("Add address", () => {
+
     // Create scenario - Add address
     // Click on Account
+    HomePage.accountButton.click();
     // Click on Orders & Payment
+    HomePage.ordersAndPaymentButton.click();
     // Click on My saved addresses
+    HomePage.myAddressesButton.click();
     // Create page object - SavedAddressesPage
     // Click on Add New Address
+    SavedAddressesPage.addAddressButton.click();
     // Create page object - CreateAddressPage
     // Fill in the necessary information
+    
+    CreateAddressPage.countryField.type("examplecountry");
+    CreateAddressPage.nameField.type("Joker");
+    CreateAddressPage.mobileNumberField.type("12312324");
+    CreateAddressPage.zipCodeField.type("2424");
+    CreateAddressPage.addressField.type("ohio");
+    CreateAddressPage.cityField.type("tex");
+    CreateAddressPage.stateField.type("abc"); 
+    
     // Click Submit button
+
+    CreateAddressPage.submitButton.click();
     // Validate that previously added address is visible
 
+    CreateAddressPage.addressInfo.should("contain.text", "Joker");
+
+    });
+
+
+    
+    it.only("Add payment option", () => {
     // Create scenario - Add payment option
     // Click on Account
+    HomePage.accountButton.click();
     // Click on Orders & Payment
+    HomePage.ordersAndPaymentButton.click();
     // Click on My payment options
+    HomePage.paymentOptionsButton.click();
     // Create page object - SavedPaymentMethodsPage
     // Click Add new card
+    SavedPaymentMethodsPage.addNewCardButton.click();
     // Fill in Name
+    SavedPaymentMethodsPage.nameField.type("Leo");
     // Fill in Card Number
+    SavedPaymentMethodsPage.cardField.type("4444444444444444");
     // Set expiry month to 7
+    SavedPaymentMethodsPage.expiryMonthField.select("7");
     // Set expiry year to 2090
+    SavedPaymentMethodsPage.expiryYearField.select("2090");
     // Click Submit button
+    SavedPaymentMethodsPage.submitButton.click();
     // Validate that the card shows up in the list
+    SavedPaymentMethodsPage.cardInfo.should("contain.text", "Leo");
   });
-
+});
