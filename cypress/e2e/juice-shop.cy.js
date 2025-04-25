@@ -255,7 +255,7 @@ context("With auto login", () => {
 
 
     
-    it.only("Add payment option", () => {
+    it("Add payment option", () => {
     // Create scenario - Add payment option
     // Click on Account
     HomePage.accountButton.click();
